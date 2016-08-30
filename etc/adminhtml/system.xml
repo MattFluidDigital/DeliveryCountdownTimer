@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <!-- Add new Tab -->
+        <tab id="fluid" translate="label" sortOrder="200">
+            <label>Fluid</label>
+        </tab>
+        <section id="deliverycountdowntimer" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Next Day Delivery Countdown</label>
+            <tab>fluid</tab>
+            <!-- resource tag name which we have to defined in the acl.xml -->
+            <resource>Fluid_DeliveryCountdownTimer::config_deliverycountdowntimer</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Options</label>
+                <field id="basket_active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled On Basket Page - Frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product_active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled On Product Page - Frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="countdown_cutoff" translate="label" type="time" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cut of time</label>
+                </field>
+                <field id="textarea_holidays" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Bank Holidays</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

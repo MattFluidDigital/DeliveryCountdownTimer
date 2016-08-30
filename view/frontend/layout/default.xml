@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="checkout.cart.container">
+            <container name="fluid.deliverycountdowntimer" as="fluid.deliverycountdowntimer" label="Next Day Delivery Countdown" />
+        </referenceContainer>
+
+        <referenceContainer name="product.info.main">
+            <container name="fluid.deliverycountdowntimer" as="fluid.deliverycountdowntimer" label="Next Day Delivery Countdown" />
+        </referenceContainer>
+
+        <!--<referenceContainer name="checkout.cart.container">-->
+            <!--<block class="Fluid\DeliveryCountdownTimer\Block\Deliverycountdowntimer" name="=fluid_sale_deliverycountdowntimer" template="deliverycountdowntimer.phtml"/>-->
+       <!---->
+        <!--</referenceContainer>-->
+        <referenceContainer  name="fluid.deliverycountdowntimer">
+            <block class="Fluid\DeliveryCountdownTimer\Block\Deliverycountdowntimer" name="fluid_sale_deliverycountdowntimer" template="deliverycountdowntimer.phtml"/>
+        </referenceContainer>
+    </body>
+    <head>
+        <!--<script src="Fluid_Countdown::js/deliverycountdowntimer.js"/>-->
+        <!--<css src="Fluid_Countdown::css/deliverycountdowntimer.css"/>-->
+    </head>
+</page>

@@ -1,0 +1,148 @@
+<?php
+
+$basketEnabled        = $this->getCountdownEnabledBasket();
+$productEnabled       = $this->getCountdownEnabledProduct();
+$cutOffTime           = $this->getCutOfTime();
+$cutOffTime           = substr($cutOffTime, 0, 2);
+$bankHolidays         = $this->getBankHolidays();
+
+date_default_timezone_set("Europe/London");
+?>
+
+<?php if($basketEnabled == 1){ ?>
+    <script type="text/javascript">
+
+
+        var hours = '<?php echo date('H', time()); ?>'
+        var minutes = '<?php echo  date('i', time())?>'
+        var day = '<?php echo  date("l")?>'
+        var deliveryCutOff = '<?php echo $cutOffTime ?>'
+        var hoursLeft = deliveryCutOff - hours;
+
+        alert(hoursLeft)
+
+
+
+        var minsLeft = 60 - minutes;
+        if(minsLeft==60){
+            minsLeft=0;
+            hoursLeft++;
+        }else{
+            hoursLeft--;
+        }
+
+        if(hoursLeft < 0){
+
+            var twentyFourHours = 24;
+            var negHours = hoursLeft ;
+            var posHours =- negHours;
+
+            var hoursLeft = twentyFourHours - posHours;
+
+        }
+        if(hoursLeft == 1){
+            var hourText = 'hr'
+        }else{
+            var hourText = 'hrs'
+        }
+        if(minsLeft == 1){
+            var minText = 'min'
+        }
+        else{
+            var minText = 'mins'
+        }
+
+
+
+        <?php
+
+
+        if(!empty($bankHolidays)){
+        $dates = $pieces = explode(",", $bankHolidays);
+        foreach ($dates as $eachdates){
+        $fridaydate = preg_match('/Friday/',$eachdates) ;
+        $mondaydate = preg_match('/Monday/',$eachdates) ;
+        $todaysdate = date("l j F");
+        if($eachdates == $todaysdate){
+
+        if($fridaydate == 1){?>
+        if (hoursLeft > deliveryCutOff){
+            deliveryDate = '<?php echo date("l j F", strtotime(' +5 day'))?>'
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }else{
+            deliveryDate = '<?php echo date("l j F", strtotime(' +4 day'))?>'
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }
+        <?php }elseif($mondaydate == true){ ?>
+        deliveryDate = '<?php echo date("l j F", strtotime(' +2 day'))?>'
+        document.write("<div class='delivery-message-text'> " +
+            "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+            "</div>")
+        <?php }else{ ?>
+
+        <?php }
+        ?>
+        <? }}
+        $notbank = 'yes';
+        }
+
+        if($notbank == 'yes'){ ?>
+        <? if( date("l") == 'Friday'){ ?>
+        if (hoursLeft > deliveryCutOff){
+            deliveryDate = '<?php echo date("l j F", strtotime(' +4 day'))?>'
+
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }else{
+            deliveryDate = '<?php echo date("l j F", strtotime(' +3 day'))?>'
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }
+        <? }elseif( date("l") == 'Saturday'){ ?>
+        deliveryDate = '<?php echo date("l j F", strtotime(' +3 day'))?>'
+        document.write("<div class='delivery-message-text'> " +
+            "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+            "</div>")
+
+        <?php }elseif(date("l") == 'Sunday'){ ?>
+        if (hoursLeft > deliveryCutOff){
+            deliveryDate = '<?php echo date("l j F", strtotime(' +2 day'))?>'
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>elivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }else{
+            deliveryDate = '<?php echo date("l j F", strtotime(' +2 day'))?>'
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }
+        <?php }else{ ?>
+        if (hoursLeft < deliveryCutOff){
+            deliveryDate = '<?php echo date("l j F", strtotime(' +1 day'))?>'
+
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='green'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }else{
+            deliveryDate = '<?php echo date("l j F", strtotime(' +2 day'))?>'
+            document.write("<div class='delivery-message-text'> " +
+                "<div class='delivery-wrapper'>Delivery available for <span class='grey'> " + deliveryDate +"</span>, Order in the next <span class='grey'>" + hoursLeft +" "+ hourText + " " + minsLeft +" "+ minText + "</span> and choose <span class='grey'>Next Day Delivery</span> at the checkout.</div>" +
+                "</div>")
+        }
+
+
+        <?php } ?>
+        <?php }?>
+
+
+
+
+
+    </script>
+<?php } ?>
